@@ -1,11 +1,16 @@
 <?php
-
+session_start();
 //initilize the page
 require_once("inc/init.php");
 
 //require UI configuration (nav, ribbon, etc.)
 require_once("inc/config.ui.php");
 
+if (!isset($_SESSION['orc_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['orc_page'] ="compBranchAdd.php";
+    echo "<script>window.location.assign('#login.php');</script>";
+}
 /*---------------- PHP Custom Scripts ---------
 
 YOU CAN SET CONFIGURATION VARIABLES HERE BEFORE IT GOES TO NAV, RIBBON, ETC. */
