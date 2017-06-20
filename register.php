@@ -46,7 +46,7 @@ include("inc/header.php");
 
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 hidden-xs hidden-sm">
-						<h1 class="txt-color-red login-header-big">Orawan Hospital</h1>
+						<h1 class="txt-color-red login-header-big">Orawan Hospital 1</h1>
 						<div class="hero">
 
 							<div class="pull-left login-desc-box-l">
@@ -88,7 +88,7 @@ include("inc/header.php");
 								<fieldset>
 									<section>
 										<label class="input"> <i class="icon-append fa fa-user"></i>
-											<input type="text" name="username" placeholder="Username">
+											<input type="text" name="username" id="username" placeholder="Username">
 											<b class="tooltip tooltip-bottom-right">Needed to enter the website</b> </label>
 									</section>
 
@@ -100,13 +100,13 @@ include("inc/header.php");
 
 									<section>
 										<label class="input"> <i class="icon-append fa fa-lock"></i>
-											<input type="password" name="password" placeholder="Password" id="password">
+											<input type="password" name="password" id="password" placeholder="Password" id="password">
 											<b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
 									</section>
 
 									<section>
 										<label class="input"> <i class="icon-append fa fa-lock"></i>
-											<input type="password" name="passwordConfirm" placeholder="Confirm password">
+											<input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Confirm password">
 											<b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
 									</section>
 								</fieldset>
@@ -152,7 +152,14 @@ include("inc/header.php");
 									</section>-->
 								</fieldset>
 								<footer>
-									<button type="submit" class="btn btn-primary">
+                                                                    <div class="alert alert-block alert-success"  id="compAlert">
+                                                                            <a class="close" data-dismiss="alert" href="#">×</a>
+                                                                            <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                                                                            <p id="compVali">
+                                                                                    You may also check the form validation by clicking on the form action button. Please try and see the results below!
+                                                                            </p>
+                                                                    </div>
+									<button type="button" id="btnRegis" class="btn btn-primary">
 										Register
 									</button>
 								</footer>
@@ -366,7 +373,7 @@ Contractology supply a wide variety of commercial legal documents, such as <a hr
 
             </div>
 			
-			<br><br>
+                <br><br>
 
             <p><strong>By using this  WEBSITE TERMS AND CONDITIONS template document, you agree to the 
 	 <a href="#">terms and conditions</a> set out on 
@@ -405,6 +412,7 @@ Contractology supply a wide variety of commercial legal documents, such as <a hr
 <script src="..."></script>-->
 
 <script type="text/javascript">
+    alert("aaaaaaaa");
     runAllForms();
 	
     // Model i agree button
@@ -488,19 +496,58 @@ Contractology supply a wide variety of commercial legal documents, such as <a hr
 
             // Ajax form submition
             submitHandler : function(form) {
-                    $(form).ajaxSubmit({
-                            success : function() {
-                                    $("#smart-form-register").addClass('submited');
-                            }
-                    });
+                $(form).ajaxSubmit({
+                    success : function() {
+                        $("#smart-form-register").addClass('submited');
+                    }
+                });
             },
 
             // Do not change code below
             errorPlacement : function(error, element) {
-                    error.insertAfter(element.parent());
+                error.insertAfter(element.parent());
             }
         });
     });
+    $("#compAlert").hide();
+    $("#btnRegis").click(checkRegis);
+    $("#username").blur(checkUser);
+    function checkRegis(){
+        //alert("aaa");
+        $.ajax({
+            type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
+            data: { 'flagPage':"login" }, 
+            success: function (data) {
+                var page = '<?php echo $_SESSION["orc_page"]; ?>';
+                //alert('bbbbb'+data+page);
+                var json_obj = $.parseJSON(data);
+                for (var i in json_obj){
+                    //$("#reRecDoc").val(json_obj[i].doc);
+                    //alert('page '+page);
+                    //$( "form" ).submit();
+                    window.location.assign(page);
+                }
+            }
+        });
+    }
+    function checkUser(){
+        alert("aaa");
+        $.ajax({
+            type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
+            data: { 'flagPage':"checkUser", 'staff_username': $("#username").val()}, 
+            success: function (data) {
+                //var page = '<?php echo $_SESSION["orc_page"]; ?>';
+                //alert('bbbbb'+data+page);
+                var json_obj = $.parseJSON(data);
+                for (var i in json_obj){
+                    if(json_obj.staff_name_t <> ""){
+                        $("#compAlert").show();
+                    }
+                    window.location.assign(page);
+                }
+            }
+        });
+    }
 </script>
 
 <?php 

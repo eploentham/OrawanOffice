@@ -12,14 +12,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/login.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/lib/config.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/inc/init.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/lib/class.parsedown.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/lib/smartui/class.smartui-nav.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/company.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/register.php</file>
-            <file>file:/C:/source/orwanhospital/OrawanOffice/inc/config.ui.php</file>
+            <file>file:/C:/source/OrawanOffice/index.php</file>
+            <file>file:/C:/source/OrawanOffice/inc/header.php</file>
+            <file>file:/C:/source/OrawanOffice/login.php</file>
+            <file>file:/C:/source/OrawanOffice/register.php</file>
+            <file>file:/C:/source/OrawanOffice/saveData.php</file>
+            <file>file:/C:/source/OrawanOffice/getAmphur.php</file>
         </group>
     </open-files>
 </project-private>

@@ -22,7 +22,13 @@ $page_css[] = "your_style.css";
 $no_main_header = true;
 $page_body_prop = array("id"=>"extr-page", "class"=>"animated fadeInDown");
 include("inc/header.php");
-$page = $_SESSION["orc_page"];
+$page="";
+if($_GET[""]=="logoff"){
+    $_SESSION["orc_page"]="";
+}else{
+    $page = $_SESSION["orc_page"];
+}
+
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
@@ -198,7 +204,7 @@ $page = $_SESSION["orc_page"];
                     //$("#reRecDoc").val(json_obj[i].doc);
                     //alert('page '+page);
                     //$( "form" ).submit();
-                    window.location.assign('#'+page);
+                    window.location.assign(page);
                 }
             }
         });
