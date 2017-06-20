@@ -61,7 +61,7 @@ $page_nav = array(
                 "url" => "#unitView.php"
             )
         )
-    )
+    ),
 );
 
 //configuration variables

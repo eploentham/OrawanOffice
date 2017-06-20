@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //initilize the page
 require_once("inc/init.php");
 
@@ -22,7 +22,7 @@ $page_css[] = "your_style.css";
 $no_main_header = true;
 $page_body_prop = array("id"=>"extr-page", "class"=>"animated fadeInDown");
 include("inc/header.php");
-
+$page = $_SESSION["orc_page"];
 ?>
 <!-- ==========================CONTENT STARTS HERE ========================== -->
 <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
@@ -110,7 +110,7 @@ include("inc/header.php");
                             </section>
                         </fieldset>
                         <footer>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="button" id="btnLogin" class="btn btn-primary">
                                     Sign in
                             </button>
                         </footer>
@@ -184,6 +184,25 @@ include("inc/header.php");
             }
         });
     });
+    $("#btnLogin").click(checkLogin);
+    function checkLogin(){
+        //alert("aaa");
+        $.ajax({
+            type: 'GET', url: 'getAmphur.php', contentType: "application/json", dataType: 'text', 
+            data: { 'flagPage':"login" }, 
+            success: function (data) {
+                var page = '<?php echo $_SESSION["orc_page"]; ?>';
+                //alert('bbbbb'+data+page);
+                var json_obj = $.parseJSON(data);
+                for (var i in json_obj){
+                    //$("#reRecDoc").val(json_obj[i].doc);
+                    //alert('page '+page);
+                    //$( "form" ).submit();
+                    window.location.assign('#'+page);
+                }
+            }
+        });
+    }
 </script>
 
 <?php 
