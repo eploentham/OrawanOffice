@@ -167,10 +167,12 @@ if($_GET["flagPage"] === "company"){
     if(!empty($_GET["staff_password"])){
         $staff_password=$_GET["staff_password"];
     }
-    
+    if(!empty($_GET["staff_username"])){
+        $staff_username=$_GET["staff_username"];
+    }
     if(($_GET["staff_id"]==="-")|| ($_GET["staff_id"]==="")){
-        $sql="Insert Into b_staff(staff_id, staff_lastname_t, staff_name_t, address_t, tele, email, tax_id,staff_password, active, date_create) "
-                ."Values(UUID(),'".$staff_lastname_t."','".$staff_name_t."','".$staff_address_t."','".$tele."','".$email."','".$tax_id."','".$staff_password."','1',now())";
+        $sql="Insert Into b_staff(staff_id, staff_lastname_t, staff_name_t, address_t, tele, email, tax_id,staff_password,staff_username, active, date_create) "
+                ."Values(UUID(),'".$staff_lastname_t."','".$staff_name_t."','".$staff_address_t."','".$tele."','".$email."','".$tax_id."','".$staff_password."','".$staff_username."','1',now())";
     }else{
         $sql="Update b_staff "
                 ."Set staff_lastname_t = '".$staff_lastname_t."' "

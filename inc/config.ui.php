@@ -46,7 +46,7 @@ $page_nav = array(
             ),
             "vend" => array(
                 "title" => "Vendor",
-                "url" => "#vendorView.php"
+                "url" => "vendorView.php"
             ),
             "type" => array(
                 "title" => "ประเภทสินค้า",
@@ -58,7 +58,7 @@ $page_nav = array(
             ),
             "unit" => array(
                 "title" => "Unit",
-                "url" => "#unitView.php"
+                "url" => "unitView.php"
             )
         )
     ),

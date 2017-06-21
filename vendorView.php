@@ -1,10 +1,11 @@
-<?php require_once("inc/init.php"); ?>
-<?php
+<?php 
 session_start();
-if (!isset($_SESSION['at_user_staff_name'])) {
+require_once("inc/init.php");
+
+if (!isset($_SESSION['orc_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] ="vendorView.php";
-    echo "<script>window.location.assign('#login.php');</script>";
+    $_SESSION['orc_page'] ="vendorView.php";
+    echo "<script>window.location.assign('login.php');</script>";
 }
 $trVend="";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);

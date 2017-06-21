@@ -93,7 +93,7 @@ if($_GET[""]=="logoff"){
                         <fieldset>
 
                             <section>
-                                <label class="label">E-mail</label>
+                                <label class="label">username / E-mail</label>
                                 <label class="input"> <i class="icon-append fa fa-user"></i>
                                     <input type="email" name="email">
                                     <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b></label>
@@ -198,13 +198,18 @@ if($_GET[""]=="logoff"){
             data: { 'flagPage':"login" }, 
             success: function (data) {
                 var page = '<?php echo $_SESSION["orc_page"]; ?>';
-                //alert('bbbbb'+data+page);
+//                alert('bbbbb'+data+"page"+page);
                 var json_obj = $.parseJSON(data);
                 for (var i in json_obj){
                     //$("#reRecDoc").val(json_obj[i].doc);
-                    //alert('page '+page);
+//                    alert('page '+data);
                     //$( "form" ).submit();
-                    window.location.assign(page);
+                    if(page==""){
+                        window.location.assign("index.php");
+                    }else{
+                        window.location.assign(page);
+                    }
+                    
                 }
             }
         });
