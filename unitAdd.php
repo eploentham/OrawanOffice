@@ -1,17 +1,19 @@
-<?php require_once("inc/init.php"); ?>
-<?php
-//if (!isset($_SESSION['at_user_staff_name']) || empty($_SESSION['at_user_staff_name'])) {
-//    //header("location: #login.php");
-//    $_SESSION['at_page'] ="unitAdd.php";
-//    echo "<script>window.location.assign('#login.php');</script>";
-//}
+<?php 
+session_start();
+require_once("inc/init.php");
+
+if (!isset($_SESSION['orc_user_staff_name'])) {
+    //header("location: #login.php");
+    $_SESSION['orc_page'] ="unitAdd.php";
+    echo "<script>window.location.assign('login.php');</script>";
+}
 //echo $userDB;
 $unitId="-";
 $uId="";
 if(isset($_GET["unitId"])){
     $unitId = $_GET["unitId"];
 }
-$conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
+$conn = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 mysqli_set_charset($conn, "UTF8");
 $sql="Select * From b_unit Where unit_id = '".$unitId."' ";
 //echo "<script> alert('aaaaa'); </script>";

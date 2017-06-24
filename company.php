@@ -541,10 +541,16 @@ mysqli_close($conn);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
-                        $.alert({
-                            title: 'Save Data',
-                            content: 'บันทึกข้อมูลเรียบร้อย',
-                        });
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'บันทึกข้อมูลเรียบร้อย',
+//                        });
+                        $("#compAlert").removeClass("alert alert-block alert-danger");
+                        $("#compAlert").addClass("alert alert-block alert-success");
+                        $("#compAlert").empty();
+                        $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย ");
+                        $("#compAlert").show();
+                        $("#loading").removeClass("fa-spin");
                     }
 //                    alert('bbbbb '+json_obj.length);
 //                    alert('ccccc '+$("#cDistrict").val());

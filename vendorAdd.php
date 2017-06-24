@@ -1,13 +1,15 @@
-<?php require_once("inc/init.php"); ?>
-<?php
+<?php 
 session_start();
-if (!isset($_SESSION['at_user_staff_name'])) {
+require_once("inc/init.php"); 
+
+if (!isset($_SESSION['orc_user_staff_name'])) {
     //header("location: #login.php");
-    $_SESSION['at_page'] ="vendorAdd.php";
-    echo "<script>window.location.assign('#login.php');</script>";
+    $_SESSION['orc_page'] ="vendorAdd.php";
+    echo "<script>window.location.assign('login.php');</script>";
 }
 $veId="";
 $veCode="";
+$oComp1="";
 if(isset($_GET["vendId"])){
     $veId = $_GET["vendId"];
     $reFlagNew = "old";
@@ -32,6 +34,11 @@ if ($rComp=mysqli_query($conn,$sql)){
     $veTele = strval($aVend["tele"]);
     $veEmail = strval($aVend["email"]);
     $veTaxId = strval($aVend["tax_id"]);
+    $compTId = $aVend["comp_type_id"];
+    
+    $oComp1 = str_replace("selected=''", "", $oComp);
+    $aa = '<option selected value='.$compTId;
+    $oComp1 = str_replace('<option value='.$compTId, $aa, $oComp1);
 }
 
 mysqli_close($conn);
@@ -122,7 +129,7 @@ mysqli_close($conn);
                                     <label class="label">ประเภท Vendor</label>
                                     <label class="select">
                                         <select name="vendType" id="vendType">
-                                            <?php echo $oComp;?>
+                                            <?php echo $oComp1;?>
                                         </select> <i></i> </label>
                                 </section>
                                 <section>
@@ -209,21 +216,27 @@ mysqli_close($conn);
                             
                             <footer>
                                 <div class="row">
+                                    
                                     <section class="col col-3 left">
                                         <button type="button" id="btnSave" class="btn btn-primary">
                                                 บันทึกข้อมูล
                                         </button>
                                     </section>
-                                    <section class="col col-6 right-inner">
-                                        &nbsp;
-                                    </section>
-                                    <section class="col col-11 ">
+                                    
+                                    <section class="col col-3 ">
                                         <ul class="demo-btns">
                                             <li>
                                                 <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
                                             </li>
                                         </ul>
                                     </section>
+                                    <div class="alert alert-block alert-success col col-6"  id="compAlert">
+                                        <a class="close" data-dismiss="alert" href="#">×</a>
+                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                                        <p id="compVali">
+                                                You may also check the form validation by clicking on the form action button. Please try and see the results below!
+                                        </p>
+                                    </div>
                                 </div>
                                 
                             </footer>
@@ -384,6 +397,7 @@ mysqli_close($conn);
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
         $("#loading").removeClass("fa-spin");
         $("#reAlert").hide();
+        $("#compAlert").hide();
         hideBtnVoid();
         $("#veProv").change(getAmphur);
         $("#veAmphur").change(getDistrict);
@@ -525,10 +539,15 @@ mysqli_close($conn);
                     var json_obj = $.parseJSON(data);
                     for (var i in json_obj){
                         //alert("aaaa "+json_obj[i].success);
-                        $.alert({
-                            title: 'Save Data',
-                            content: 'บันทึกข้อมูลเรียบร้อย',
-                        });
+//                        $.alert({
+//                            title: 'Save Data',
+//                            content: 'บันทึกข้อมูลเรียบร้อย',
+//                        });
+                    $("#compAlert").removeClass("alert alert-block alert-danger");
+                    $("#compAlert").addClass("alert alert-block alert-success");
+                    $("#compAlert").empty();
+                    $("#compAlert").append(" บันทึกข้อมูลเรียบร้อย ");
+                    $("#compAlert").show();
                         $("#loading").removeClass("fa-spin");
                     }
 //                    alert('bbbbb '+json_obj.length);
