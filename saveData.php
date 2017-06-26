@@ -25,9 +25,11 @@ if($_GET["flagPage"] === "company"){
     $amphur_id=$_GET["amphur_id"];
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
+    $comp_type_id=$_GET["comp_type_id"];
+    $prov_id=$_GET["prov_id"];
     if($_GET["comp_id"]==="-"){
-        $sql="Insert Into b_company(comp_id, comp_code, comp_name_t, comp_address_t, tele, email, tax_id, date_create) "
-                ."Values(UUID(),'".$comp_code."','".$comp_name_t."','".$comp_address_t."','".$tele."','".$email."','".$tax_id."',now())";
+        $sql="Insert Into b_company(comp_id, comp_code, comp_name_t, comp_address_t, tele, email, tax_id,comp_type_id,prov_id, date_create) "
+                ."Values(UUID(),'".$comp_code."','".$comp_name_t."','".$comp_address_t."','".$tele."','".$email."','".$tax_id."','".$comp_type_id."','".$prov_id."',now())";
     }else{
         $sql="Update b_company "
                 ."Set comp_code = '".$comp_code."' "
@@ -40,6 +42,8 @@ if($_GET["flagPage"] === "company"){
                 .", amphur_id = '".$amphur_id."' "
                 .", district_id = '".$district_id."' "
                 .", zipcode = '".$zipcode."' "
+                .", comp_type_id = '".$comp_type_id."' "
+//                .", prov_id = '".$prov_id."' "
                 .", date_modi = now() "
                 ."Where comp_id = '".$comp_id."'";
     }
@@ -200,6 +204,9 @@ if($_GET["flagPage"] === "company"){
     $amphur_id=$_GET["amphur_id"];
     $district_id=$_GET["district_id"];
     $zipcode=$_GET["zipcode"];
+    $po_due_period=$_GET["po_due_period"];
+    $comp_type_id=$_GET["comp_type_id"];
+
     if(($_GET["flag_new"]==="-")|| ($_GET["flag_new"]==="new")){
         $sql = "Select count(1) as cnt From b_vendor ";
         if ($result=mysqli_query($conn,$sql) or die(mysqli_error())){
@@ -216,8 +223,10 @@ if($_GET["flagPage"] === "company"){
             $doc = "V".$year. substr($cnt, strlen($cnt)-3);
         }
 //    if(($_GET["vend_id"]==="-")|| ($_GET["vend_id"]==="")){
-        $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t, tele, email, tax_id, active, date_create) "
-                ."Values(UUID(),'".$doc."','".$vend_name_t."','".$vend_address_t."','".$tele."','".$email."','".$tax_id."','1',now())";
+        $sql="Insert Into b_vendor(vend_id, vend_code, vend_name_t, vend_address_t"
+                .", tele, email, tax_id, po_due_period, comp_type_id, active, date_create) "
+                ."Values(UUID(),'".$doc."','".$vend_name_t."','".$vend_address_t."','"
+                .$tele."','".$email."','".$tax_id."','".$po_due_period."','".$comp_type_id."','1',now())";
     }else{
         $sql="Update b_vendor "
                 ."Set vend_code = '".$vend_code."' "
@@ -230,6 +239,8 @@ if($_GET["flagPage"] === "company"){
                 .", amphur_id = '".$amphur_id."' "
                 .", district_id = '".$district_id."' "
                 .", zipcode = '".$zipcode."' "
+                .", po_due_period = '".$po_due_period."' "
+                .", comp_type_id = '".$comp_type_id."' "
                 .", date_modi = now() "
                 ."Where vend_id = '".$vend_id."'";
     }

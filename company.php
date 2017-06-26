@@ -8,6 +8,12 @@ if (!isset($_SESSION['orc_user_staff_name'])) {
     echo "<script>window.location.assign('login.php');</script>";
 }
 $compId="-";
+$compTId="";
+$oComp1="";
+$oProv1="";
+$provName1="";
+$ampName1="";
+$disName1="";
 if(isset($_GET["compId"])){
     $compId = $_GET["compId"];
 }
@@ -21,28 +27,56 @@ if(isset($_GET["compId"])){
 //$hostDB="mysql-5.5.chaiyohosting.com";
 $conn = mysqli_connect($hostDB,$userDB,$passDB,$databaseName);
 if(!$conn){
-    echo mysqli_error();
+    echo mysqli_error($conn);
     echo "<script>alert(".mysql_error().");</script>";
     return;
 }
 mysqli_set_charset($conn, "UTF8");
-$sql="Select * From b_company  ";
+$sql="Select comp.*, prov.prov_name, amp.amphur_name, dis.district_name "
+        ."From b_company comp  "
+        ."Left Join provinces prov on comp.prov_id = prov.prov_id "
+        ."Left join amphures amp on comp.amphur_id = amp.amphur_id "
+        ."Left Join districts dis on comp.district_id = dis.district_id ";
 //echo "<script> alert('aaaaa'); </script>";
 //$rComp = mysqli_query($conn,"Select * From b_company Where comp_id = '1' ");
 if ($rComp=mysqli_query($conn,$sql)){
     $aComp = mysqli_fetch_array($rComp);
     $compId = $aComp["comp_id"];
-    $bb = strval($aComp["prov_id"]);
-    $oProv = str_replace("selected=''", "", $oProv);
+    $provId = $aComp["prov_id"];
+    $compTId = $aComp["comp_type_id"];
+    
     //$pos = strpos($oProv, "<option value='".$aComp["prov_id"]);
-    $aa = '<option selected value='.$bb;
-    $oProv = str_replace('<option value='.$bb, $aa, $oProv);
-//    echo "<script> alert('".$aa."'); </script>";
-//    if($pos===true){
-//        echo "<script> alert('aaaaa'); </script>";
-//        $aa = "<option selected='' value='".$aComp["prov_id"];
-//        $oProv = str_replace("<option value='".$aComp["prov_id"], $aa, $oProv);
-//    }
+//    $aa = '<option selected value='.$bb;
+//    $oProv = str_replace('<option value='.$bb, $aa, $oProv);
+    
+    $oComp1 = str_replace("selected=''", "", $oComp);
+    $oProv1 = str_replace("selected=''", "", $oProv);
+    
+    $provName = ($aHosp["prov_name"]);
+    $amphurId = ($aHosp["amphur_id"]);
+    $districtId = ($aHosp["district_id"]);
+    $ampName = ($aHosp["amphur_name"]);
+    $disName = ($aHosp["district_name"]);
+    $oComp1 = str_replace('<option value='.$compTId, $aa, $oComp1);
+    if(isset($provId)){
+        $cnt=1;
+        $bb = strval($aComp["prov_id"]);
+        $aa = '<option selected value='.$bb.">".$provName."</option>";
+        $oProv1 = str_replace("selected=''", "", $oProv1);
+        $oProv1 = str_replace('<option value='.$bb.">".$provName."</option>", $aa, $oProv1,$cnt);
+    }
+    if(isset($ampName)){
+        $ampName1 = "<option value='0' disabled=''>เลือกอำเภอ</option>";
+        $ampName1 .= "<option selected='true' value='".$amphurId."'>".$ampName."</option>";
+    }else{
+        $ampName1 = $oProv;
+    }
+    if(isset($disName)){
+        $disName1 = "<option value='0' disabled=''>เลือกตำบล</option>";
+        $disName1 .= "<option selected='true' value='".$districtId."'>".$disName."</option>";
+    }else{
+        $hoDisName1 = $oProv;
+    }
 }
 
 //while($row = mysqli_fetch_array($result)){
@@ -84,14 +118,6 @@ mysqli_close($conn);
 		<!-- END MODAL -->
 		
 	</div>
-</div>
-
-<div class="alert alert-block alert-success"  id="compAlert">
-	<a class="close" data-dismiss="alert" href="#">×</a>
-	<h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
-	<p id="compVali">
-		You may also check the form validation by clicking on the form action button. Please try and see the results below!
-	</p>
 </div>
 
 <!-- widget grid -->
@@ -142,7 +168,7 @@ mysqli_close($conn);
                                         <label class="label">ประเภทบริษัท</label>
                                         <label class="select">
                                             <select name="compType" id="compType">
-                                                    <?php echo $oComp;?>
+                                                    <?php echo $oComp1;?>
                                             </select> <i></i> </label>
                                     </section>
                                     <section  class="col col-8">
@@ -167,14 +193,14 @@ mysqli_close($conn);
                                         <label class="label">ตำบล</label>
                                         <label class="select">
                                             <select name="cDistrict" id="cDistrict">
-                                                    <?php echo $oComp;?>
+                                                    <?php echo $disName1;?>
                                             </select> <i></i> </label>
                                     </section>
                                     <section class="col col-6">
                                         <label class="label">อำเภอ</label>
                                         <label class="select">
                                             <select name="cAmphur" id="cAmphur">
-                                                <?php echo $oComp;?>
+                                                <?php echo $ampName1;?>
                                             </select> <i></i> </label>
                                     </section>
                                 </div>
@@ -184,7 +210,7 @@ mysqli_close($conn);
                                         <label class="label">จังหวัด</label>
                                         <label class="select">
                                             <select name="cProv" id="cProv">
-                                                <?php echo $oProv;?>
+                                                <?php echo $oProv1;?>
                                             </select> <i></i> </label>
                                     </section>
 
@@ -219,7 +245,25 @@ mysqli_close($conn);
                             </fieldset>
                             
                             <footer>
-                                <button type="button" id="btnSave" class="btn btn-primary">บันทึกข้อมูล</button>
+                                <div class="row">
+                                    <section class="col col-3 left">
+                                        <button type="button" id="btnSave" class="btn btn-primary">บันทึกข้อมูล</button>
+                                    </section>
+                                    <section class="col col-3 ">
+                                        <ul class="demo-btns">
+                                            <li>
+                                                <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white"><i id="loading" class="fa fa-gear fa-2x fa-spin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <div class="alert alert-block alert-success col col-6"  id="compAlert">
+                                        <a class="close" data-dismiss="alert" href="#">×</a>
+                                        <h4 class="alert-heading"><i class="fa fa-check-square-o"></i> Check validation!</h4>
+                                        <p id="compVali">
+                                                You may also check the form validation by clicking on the form action button. Please try and see the results below!
+                                        </p>
+                                    </div>
+                                </div>
                             </footer>
                         </form>						
 
@@ -446,7 +490,9 @@ mysqli_close($conn);
 	
 	// Load form valisation dependency 
 	loadScript("js/plugin/jquery-form/jquery-form.min.js", pagefunction);
+        $("#loading").removeClass("fa-spin");
         $("#compAlert").hide();
+        //$("#compAlert").hide();
         $("#cProv").change(getAmphur);
         $("#cAmphur").change(getDistrict);
         $("#cDistrict").change(getZipcode);
@@ -521,7 +567,8 @@ mysqli_close($conn);
             });
         }
         function saveComp(){
-            //alert('aaaaa');
+//            alert('aaaaa '+ $("#compType").val());
+            $("#loading").addClass("fa-spin");
             $.ajax({ 
                 type: 'GET', url: 'saveData.php', contentType: "application/json", dataType: 'text', 
                 data: { 'comp_id': $("#compId").val()
@@ -535,6 +582,8 @@ mysqli_close($conn);
                     ,'amphur_id': $("#cAmphur").val()
                     ,'district_id': $("#cDistrict").val()
                     ,'zipcode': $("#cZipcode").val()
+                    ,'comp_type_id': $("#compType").val()
+                    //,'prov_id': $("#cProv").val()
                     ,'flagPage': "company" }, 
                 success: function (data) {
                     //alert('bbbbb'+data);

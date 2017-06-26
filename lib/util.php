@@ -28,4 +28,12 @@ function getCompany($comp){
     }
     
 }
+$sql="Select * From provinces Order By prov_code";
+//$result = mysqli_query($conn,"Select * From f_company_type Where active = '1' Order By comp_type_code");
+if ($result=mysqli_query($conn,$sql)){
+    $oProv = "<option value='0' selected='' disabled=''>เลือกจังหวัด</option>";
+    while($row = mysqli_fetch_array($result)){
+        $oProv .= '<option value='.$row["prov_id"].'>'.$row["prov_name"].'</option>';
+    }
+}
 ?>

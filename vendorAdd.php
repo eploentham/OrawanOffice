@@ -10,6 +10,7 @@ if (!isset($_SESSION['orc_user_staff_name'])) {
 $veId="";
 $veCode="";
 $oComp1="";
+$vePoDP="";
 if(isset($_GET["vendId"])){
     $veId = $_GET["vendId"];
     $reFlagNew = "old";
@@ -35,6 +36,7 @@ if ($rComp=mysqli_query($conn,$sql)){
     $veEmail = strval($aVend["email"]);
     $veTaxId = strval($aVend["tax_id"]);
     $compTId = $aVend["comp_type_id"];
+    $vePoDP = $aVend["po_due_period"];
     
     $oComp1 = str_replace("selected=''", "", $oComp);
     $aa = '<option selected value='.$compTId;
@@ -88,7 +90,7 @@ mysqli_close($conn);
     <!-- START ROW -->
     <div class="row">
         <!-- NEW COL START -->
-        <article class="col-sm-12 col-md-12 col-lg-6">
+        <article class="col-sm-12 col-md-12 col-lg-8">
             <!-- Widget ID (each widget will need unique ID)-->
             <div class="jarviswidget" id="wid-id-4" data-widget-editbutton="false" data-widget-custombutton="false">
                 <!-- widget options:
@@ -197,10 +199,16 @@ mysqli_close($conn);
                                 </section >
                                 </div>
                                 <div class="row">
-                                    <section class="col col-8">
+                                    <section class="col col-4">
                                         <label class="label">เลขที่ผู้เสียภาษี</label>
                                         <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
                                             <input type="text" name="veTaxId" id="veTaxId" placeholder="เลขที่ผู้เสียภาษี" value="<?php echo $veTaxId;?>">
+                                            <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
+                                    </section >
+                                    <section class="col col-4">
+                                        <label class="label">Credit Term</label>
+                                        <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                            <input type="text" name="vePoDP" id="vePoDP" placeholder="Credit Term" value="<?php echo $vePoDP;?>">
                                             <b class="tooltip tooltip-bottom-right">Needed to verify your account</b> </label>
                                     </section >
                                     <section class="col col-2">    
@@ -532,6 +540,8 @@ mysqli_close($conn);
                     ,'amphur_id': $("#veAmphur").val()
                     ,'district_id': $("#veDistrict").val()
                     ,'zipcode': $("#veZipcode").val()
+                    ,'po_due_period': $("#vePoDP").val()
+                    ,'comp_type_id': $("#vendType").val()
                     ,'flag_new': $("#reFlagNew").val()
                     ,'flagPage': "vendor" }, 
                 success: function (data) {
