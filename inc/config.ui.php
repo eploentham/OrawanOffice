@@ -26,14 +26,38 @@ $page_nav = array(
         "title" => "จัดซื้อ",
         "icon" => "fa-home",
         "sub" => array(
-                "analytics" => array(
-                        "title" => "Analytics Dashboard",
-                        "url" => "ajax/dashboard.php"
-                ),
-                "social" => array(
-                        "title" => "Social Wall",
-                        "url" => "ajax/dashboard-social.php"
-                )
+            "prRequest" => array(
+                "title" => "จัดซื้อ ขอซื้อ",
+                "url" => "poPrRequestView.php"
+            ),
+            "hosRequest" => array(
+                "title" => "โรงพยาบาล ขอซื้อ",
+                "url" => "poPrRequestView.php"
+            ),
+            "prApprove" => array(
+                "title" => "อนุมัติ ขอซื้อ",
+                "url" => "poPrApproveView.php"
+            ),
+            "po" => array(
+                "title" => "ใบสั่งซื้อ",
+                "url" => "poPo.php"
+            ),
+            "vendorConfirm" => array(
+                "title" => "vendor confirm",
+                "url" => "poPo.php"
+            ),
+            "recStockPO" => array(
+                "title" => "รับสินค้าเข้าคลัง จัดซื้อ",
+                "url" => "poPo.php"
+            ),
+            "drawStockPO" => array(
+                "title" => "เบิกจ่ายสินค้า จัดซื้อ",
+                "url" => "poPo.php"
+            ),
+            "goodsView" => array(
+                "title" => "สินค้าขอ จัดซื้อ",
+                "url" => "goodsView.php"
+            )
         )
     ),
     "company" => array(
